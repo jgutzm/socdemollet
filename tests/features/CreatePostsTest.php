@@ -39,8 +39,6 @@ class CreatePostsTest extends FeatureTestCase
     function test_create_post_form_validation()
     {
         // Having
-        $title_message = 'El campo título es obligatorio';
-        $content_message = 'El campo contenido es obligatorio';
         $this->actingAs($this->defaultUser());
 
         // When
@@ -49,7 +47,9 @@ class CreatePostsTest extends FeatureTestCase
 
         // Then
         $this->seePageIs(route('posts.create'))
-          ->seeInElement('#field_title.has-error .help-block', $title_message)
-          ->seeInElement('#field_content.has-error .help-block', $content_message);
+          ->seeErrors([
+            'title' => 'El campo título es obligatorio',
+            'content' => 'El campo contenido es obligatorio'
+          ]);
     }
 }
