@@ -143,6 +143,7 @@ return [
         'second'                => 'segundo',
         'title'                 => 'título',
         'content'               => 'contenido',
+        'comment'               => 'comentario',
         'body'                  => 'contenido',
         'description'           => 'descripción',
         'excerpt'               => 'extracto',
