@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\Comment;
-use App\Post;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -47,5 +46,9 @@ class User extends Authenticatable
         ]);
 
         $this->comments()->save($comment);
+    }
+
+    public function owns(Model $model){
+        return $this->id === $model->user_id;
     }
 }
