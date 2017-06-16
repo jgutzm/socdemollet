@@ -18,4 +18,16 @@
         </button>
 
     {!! Form::close() !!}
+
+    @foreach($post->latestComments as $comment)
+        <article class="{{ $comment->answer ? 'answer' : '' }}">
+            {{ $comment->post->user_id }}
+            {{ $comment->comment }}
+            {!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}
+                <button type="submit">
+                    Aceptar respuesta
+                </button>
+            {!! Form::close() !!}
+        </article>
+    @endforeach
 @endsection
