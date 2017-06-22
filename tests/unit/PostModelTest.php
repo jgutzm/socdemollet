@@ -6,7 +6,7 @@ class PostModelTest extends TestCase
 {
     function test_adding_a_title_generates_a_slug()
     {
-        $post = new \App\Post([
+        $post = new Post([
             'title' => 'Como instalar Laravel'
         ]);
 
@@ -15,7 +15,7 @@ class PostModelTest extends TestCase
 
     function test_editing_the_title_changes_the_slug()
     {
-        $post = new \App\Post([
+        $post = new Post([
             'title' => 'Como instalar Laravel'
         ]);
 
