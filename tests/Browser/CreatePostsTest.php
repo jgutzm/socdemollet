@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use App\Post;
+use App\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreatePostsTest extends DuskTestCase
@@ -17,12 +18,15 @@ class CreatePostsTest extends DuskTestCase
     {
         $user = $this->defaultUser();
 
-        $this->browse(function ($browser) use ($user) {
+        $category = factory(Category::class)->create();
+
+        $this->browse(function ($browser) use ($user,$category) {
             // Having
             $browser->loginAs($user)
                 ->visitRoute('posts.create')
                 ->type('title', $this->title)
                 ->type('content', $this->content)
+                ->select('category_id', $category->id )
                 ->press('Publicar')
                 // Test a user is redirected to the posts details after creating it.
                 ->assertPathIs('/posts/1-esta-es-una-pregunta');
@@ -48,27 +52,31 @@ class CreatePostsTest extends DuskTestCase
 
     function test_creating_a_post_requires_authentication()
     {
-        // When
-        $this->visit(route('posts.create'));
+        $this->browse(function ($browser) {
 
-        // Then
-        $this->seePageIs(route('login'));
+            // When
+            $browser->visitRoute('posts.create')
+            // Then
+                    ->assertRouteIs('login');
+        });
     }
 
     function test_create_post_form_validation()
     {
-        // Having
-        $this->actingAs($this->defaultUser());
+        $user = $this->defaultUser();
 
-        // When
-        $this->visit(route('posts.create'))
-          ->press('Publicar');
-
-        // Then
-        $this->seePageIs(route('posts.create'))
-          ->seeErrors([
-            'title' => 'El campo título es obligatorio',
-            'content' => 'El campo contenido es obligatorio'
-          ]);
+        $this->browse(function ($browser) use ($user) {
+            // Having
+            $browser->loginAs($user)
+            // When
+                ->visitRoute('posts.create')
+                ->press('Publicar')
+            // Then
+                ->assertRouteIs('posts.create')
+                ->assertSeeErrors([
+                    'title' => 'El campo título es obligatorio',
+                    'content' => 'El campo contenido es obligatorio'
+              ]);
+        });
     }
 }
