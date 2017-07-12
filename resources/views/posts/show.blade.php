@@ -5,7 +5,7 @@
 
     {!! $post->safe_html_content !!}
 
-    <p>{{ $post->user->name }}</p>
+    <p>{{ $post->user->username }}</p>
 
     @if (auth()->check())
         @if (!auth()->user()->isSubscribedTo($post))
