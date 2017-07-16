@@ -16,6 +16,12 @@ Route::get('/', [
     'as' => 'posts.index'
 ]);
 
+Route::get('category/{category?}', [
+    'uses' => 'PostController@index',
+    'as' => 'posts.index'
+]);
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');

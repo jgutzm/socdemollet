@@ -30,7 +30,7 @@ class CreatePostsTest extends FeatureTestCase
           'category_id' => $category->id,
         ]);
 
-        $post = Post::first();
+        $post = Post::orderBy('created_at', 'desc')->first();
 
         // Test the author is suscribed automatically to the post
         $this->seeInDatabase('subscriptions', [
