@@ -58,12 +58,40 @@ class PostsListTest extends FeatureTestCase
             ->dontSee($vuePost->title);
     }
 
+    function test_a_usar_can_see_posts_filtered_by_status()
+    {
+        // Having
+        $pendingPost = factory(Post::class)->create([
+            'title' => 'Post pendiente',
+            'pending' => true
+        ]);
+
+        $completedPost = factory(Post::class)->create([
+            'title' => 'Post completado',
+            'pending' => false
+        ]);
+
+        // When
+        $this->visitRoute('posts.pending');
+
+        // Then
+        $this->see($pendingPost->title)
+            ->dontSee($completedPost->title);
+
+        // When
+        $this->visitRoute('posts.completed');
+
+        // Then
+        $this->see($completedPost->title)
+            ->dontSee($pendingPost->title);
+    }
+
     function test_the_posts_are_paginated()
     {
         // Having
         $oldest = factory(Post::class)->create([
             'title' => 'Post más antiguo',
-            'created_at' => Carbon::now()->subDays(2)
+            'created_at' => Carbon::now()->subDays(100)
         ]);
 
         factory(Post::class)->times(15)->create([
