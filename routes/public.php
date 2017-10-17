@@ -21,14 +21,13 @@ Route::get('category/{category?}', [
     'as' => 'posts.index'
 ]);
 
-Route::get('posts-pendientes', [
-	'uses' => 'PostController@index',
-	'as' => 'posts.pending'
+Route::get('posts-pendientes/{category?}', [
+    'uses' => 'PostController@index',
+    'as' => 'posts.pending'
 ]);
-
-Route::get('posts-completados', [
-	'uses' => 'PostController@index',
-	'as' => 'posts.completed'
+Route::get('posts-completados/{category?}', [
+    'uses' => 'PostController@index',
+    'as' => 'posts.completed'
 ]);
 
 Auth::routes();

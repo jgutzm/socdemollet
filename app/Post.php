@@ -2,11 +2,9 @@
 
 namespace App;
 
-
-use App\Category;
-use GrahamCampbell\Markdown\Facades\Markdown;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class Post extends Model
 {
@@ -44,7 +42,7 @@ class Post extends Model
     public function scopeCategory($query, Category $category)
     {
         if ($category->exists) {
-            $query->where('category_id', $category->id);
+           $query->where('category_id', $category->id);
         }
     }
 
@@ -61,6 +59,7 @@ class Post extends Model
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;
+
         $this->attributes['slug'] = Str::slug($value);
     }
 
